@@ -1,0 +1,1 @@
+﻿SELECT * FROM [db_olivera].[dbo].[pacientes] where Expediente IS NOT NULL AND Expediente != ''
