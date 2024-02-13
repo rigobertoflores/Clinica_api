@@ -2,6 +2,7 @@ using Clinica_Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.UI;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,28 +30,28 @@ builder.Services.AddDbContext<DbOliveraContext>(options =>
 builder.Services.AddControllers();
 
 // Agregar servicios al contenedor. K
-//builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAd");
-//builder.Services.AddControllersWithViews();
-//builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
+builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAd");
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages().AddMicrosoftIdentityUI();
 
 var app = builder.Build();
 app.UseCors("AllowSpecificOrigin");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-    app.UseAuthorization();
+app.UseAuthorization();
 
-    app.MapControllers();
+app.MapControllers();
 
-    //app.UseAuthentication();
+app.UseAuthentication();
 
-    //app.UseAuthorization();
+app.UseAuthorization();
 
-    app.Run();
+app.Run();
