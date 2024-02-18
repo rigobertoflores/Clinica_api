@@ -24,7 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Agrega servicios al contenedor.
-builder.Services.AddDbContext<DbOliveraContext>(options =>
+builder.Services.AddDbContext<DbOliveraClinicaContext>(options =>
     options.UseSqlServer("Data Source=LAPTOP-UB7952GK\\MSSQLSERVER01;Integrated Security=True;Connect Timeout=300;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
 builder.Services.AddControllers();
