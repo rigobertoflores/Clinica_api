@@ -61,7 +61,7 @@ namespace Clinica_Api.Controllers
             var responseString = await response.Content.ReadAsStringAsync();
             var responseData = JsonSerializer.Deserialize<TokenResponse>(responseString);
 
-                Redirect(https://localhost:7210/swagger/index.html);
+                Redirect("https://localhost:7210/swagger/index.html");
 
             return Ok(responseData);
 
