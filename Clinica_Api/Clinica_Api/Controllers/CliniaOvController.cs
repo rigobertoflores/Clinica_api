@@ -138,14 +138,67 @@ namespace Clinica_Api.Controllers
         public IActionResult PostPaciente([FromBody] PacientesInformacionGeneral paciente)
         {
             PacientesInformacionGeneral informacionpaciente = _context.PacientesInformacionGenerals.FirstOrDefault(x => x.Clave == paciente.Clave);
-            if (informacionpaciente == null)
+            if (informacionpaciente == null || !ModelState.IsValid)
             {
                 return NotFound();
-            }
-            informacionpaciente = paciente;
-            // Guarda los cambios en la base de datos.
+            }           
             try
             {
+                informacionpaciente.HepatitisViralTipo = paciente.HepatitisViralTipo;
+                informacionpaciente.Rubeola = paciente.Rubeola;
+                informacionpaciente.DiabetesMellitus = paciente.DiabetesMellitus;
+                informacionpaciente.Hiv = paciente.Hiv;
+                informacionpaciente.Amigdalitis = paciente.Amigdalitis;
+                informacionpaciente.Alcoholismo = paciente.Alcoholismo;
+                informacionpaciente.Alergia = paciente.Alergia;
+                informacionpaciente.Bronconeumonia = paciente.Bronconeumonia;
+                informacionpaciente.Bronquitis = paciente.Bronquitis;
+                informacionpaciente.Clamydiasis = paciente.Clamydiasis;
+                informacionpaciente.Displasias = paciente.Displasias;
+                informacionpaciente.Parasitosis = paciente.Parasitosis;
+                informacionpaciente.Sifilis = paciente.Sifilis;
+                informacionpaciente.Trombosis = paciente.Trombosis;
+                informacionpaciente.Cancer = paciente.Cancer;
+                informacionpaciente.Micosis = paciente.Micosis;
+                informacionpaciente.Displasias = paciente.Displasias;
+                informacionpaciente.Cardiopatias = paciente.Cardiopatias;
+                informacionpaciente.Citomegalovirus = paciente.Citomegalovirus;
+                informacionpaciente.Nefropatias = paciente.Nefropatias;
+                informacionpaciente.Neurologicas = paciente.Neurologicas;
+                informacionpaciente.Nombre = paciente.Nombre;
+                informacionpaciente.Tabaquismo = paciente.Tabaquismo;
+                informacionpaciente.TabaquismoPasivo = paciente.TabaquismoPasivo;
+                informacionpaciente.Digestivas = paciente.Digestivas;
+                informacionpaciente.Domicilio = paciente.Domicilio;
+                informacionpaciente.DrogasOmedicamentos = paciente.DrogasOmedicamentos;
+                informacionpaciente.Condilomatosis = paciente.Condilomatosis;
+                informacionpaciente.Diabetes = paciente.Diabetes;
+                informacionpaciente.EdadDelEsposo = paciente.EdadDelEsposo;
+                informacionpaciente.Eip = paciente.Eip;
+                informacionpaciente.Email = paciente.Email;
+                informacionpaciente.EnfermedadesGeneticas = paciente.EnfermedadesGeneticas;
+                informacionpaciente.EstadoCivil = paciente.EstadoCivil;
+                informacionpaciente.FechaConsulta = paciente.FechaConsulta;
+                informacionpaciente.FechaDeNacimiento = paciente.FechaDeNacimiento;
+                informacionpaciente.FechaUltimaConsulta = paciente.FechaUltimaConsulta;
+                informacionpaciente.GrupoSanguineo = paciente.GrupoSanguineo;
+                informacionpaciente.Hematologicas = paciente.Hematologicas;
+                informacionpaciente.Herpes = paciente.Herpes;
+                informacionpaciente.Hipertension = paciente.Hipertension;
+                informacionpaciente.Inmunizaciones = paciente.Inmunizaciones;
+                informacionpaciente.OtraEnfermedad = paciente.OtraEnfermedad;
+                informacionpaciente.OtrasEndocrinas = paciente.OtrasEndocrinas;
+                informacionpaciente.PropiasDeLaInfancia = paciente.PropiasDeLaInfancia;
+                informacionpaciente.Referencia = paciente.Referencia;
+                informacionpaciente.Sexo = paciente.Sexo;
+                informacionpaciente.Telefono = paciente.Telefono;
+                informacionpaciente.NombreDelEsposo = paciente.NombreDelEsposo;
+                informacionpaciente.Ocupacion = paciente.Ocupacion;
+                informacionpaciente.OcupacionEsposo = paciente.OcupacionEsposo;
+                informacionpaciente.Poblacion = paciente.Poblacion;
+                informacionpaciente.Toxoplasmosis = paciente.Toxoplasmosis;
+                informacionpaciente.Trombosis = paciente.Trombosis;
+                _context.PacientesInformacionGenerals.Update(informacionpaciente);
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -156,6 +209,8 @@ namespace Clinica_Api.Controllers
 
             return Ok(informacionpaciente);
         }
+
+
 
         private static byte[] HexStringToByteArray(string hex)
         {
