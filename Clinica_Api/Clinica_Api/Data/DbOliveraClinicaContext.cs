@@ -40,9 +40,12 @@ public partial class DbOliveraClinicaContext : DbContext
 
     public virtual DbSet<PacientesInformacionGeneral> PacientesInformacionGenerals { get; set; }
 
+
     public virtual DbSet<Receta> Recetas { get; set; }
 
     public virtual DbSet<RecetasX> RecetasXes { get; set; }
+
+    public virtual DbSet<RecetasxPaciente> RecetasxPacientes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -309,6 +312,16 @@ public partial class DbOliveraClinicaContext : DbContext
 
             entity.Property(e => e.Clave).ValueGeneratedNever();
             entity.Property(e => e.Expediente).HasColumnType("image");
+        });
+
+        modelBuilder.Entity<RecetasxPaciente>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Recetasx__3214EC07DBB703E1");
+
+            entity.ToTable("RecetasxPaciente");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Fecha).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);

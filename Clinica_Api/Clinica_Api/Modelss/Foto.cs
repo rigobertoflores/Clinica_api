@@ -7,5 +7,5 @@ public partial class Foto
 {
     public int Id { get; set; }
 
-    public byte[] BlobData { get; set; } = null!;
+    public byte[]? BlobData { get; set; }
 }
