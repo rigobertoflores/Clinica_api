@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Image = System.Drawing.Image;
 using Clinica_Api.Modelss;
+using System.Collections.Generic;
 
 namespace Clinica_Api.Controllers
 {
@@ -42,7 +43,7 @@ namespace Clinica_Api.Controllers
         [HttpGet("CliniaOvController/GetPacientes")]
         public IActionResult GetPacientes()
         {
-            var contenido = _context.PacientesInformacionGenerals.Where(x=>x.Clave==429).OrderByDescending(x => x.FechaConsulta).Take(20);
+            var contenido = _context.PacientesInformacionGenerals.OrderByDescending(x => x.FechaConsulta).Take(20);
 
             return Ok(contenido);
         }
@@ -130,7 +131,15 @@ namespace Clinica_Api.Controllers
         [HttpGet("CliniaOvController/GetHistoriaPaciente/{id:int}")]
         public IActionResult GetHistoriaPaciente(int id)
         {
-            Expediente historia = _context.Expedientes.Where(x => x.Clave == id).First();
+            Expediente historia=new Expediente();
+            try
+            {
+             historia = _context.Expedientes.Where(x => x.Clave == id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "No se pudo guardar la información del paciente. Error: " + ex.Message);
+            }
             return Ok(historia);
         }
 
@@ -210,6 +219,92 @@ namespace Clinica_Api.Controllers
             return Ok(informacionpaciente);
         }
 
+        [HttpPost("CliniaOvController/PostReceta")]
+        public IActionResult PostReceta([FromBody] RecetasxPaciente receta)
+        {
+            List<RecetasxPaciente> recetasxpaciente = new List<RecetasxPaciente>();
+            if (receta == null)
+            {
+                return NotFound();
+            }
+            // Guarda los cambios en la base de datos.
+            try
+            {
+                if (receta.Id > 0) 
+                _context.Update(receta);
+                else                
+                _context.Add(receta);
+
+                _context.SaveChanges();
+                recetasxpaciente = getAllRecetasPaciente(receta.Clave);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier error que pueda ocurrir durante el guardado.
+                return StatusCode(500, "No se pudo guardar la información del paciente. Error: " + ex.Message);
+            }
+
+            return Ok(recetasxpaciente);
+        }
+
+        [HttpPost("CliniaOvController/PostDeleteReceta")]
+        public IActionResult PostDeleteReceta([FromBody] RecetasxPaciente receta)
+        {
+            List<RecetasxPaciente> recetasxpaciente = new List<RecetasxPaciente>();
+            if (receta == null)
+            {
+                return NotFound();
+            }
+            // Guarda los cambios en la base de datos.
+            try
+            {
+                if (receta.Id > 0)
+                    _context.Remove(receta);             
+
+                    _context.SaveChanges();
+                recetasxpaciente = getAllRecetasPaciente(receta.Clave);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier error que pueda ocurrir durante el guardado.
+                return StatusCode(500, "No se pudo guardar la información del paciente. Error: " + ex.Message);
+            }
+
+            return Ok(recetasxpaciente);
+        }
+
+        [HttpGet("CliniaOvController/GetReceta/{id:int}")]
+        public IActionResult GetReceta(int id)
+        {
+
+            List<RecetasxPaciente> recetasxpaciente = new List<RecetasxPaciente>();
+            try
+            {
+                recetasxpaciente=getAllRecetasPaciente(id);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "No se pudo obtener la información del paciente. Error: " + ex.Message);
+            }
+
+            return Ok(recetasxpaciente);
+        }
+
+
+        private List<RecetasxPaciente> getAllRecetasPaciente(int id) {
+            List<RecetasxPaciente> recetasxpaciente = new List<RecetasxPaciente>();
+            try 
+            {
+                recetasxpaciente = _context.RecetasxPacientes.Where(x => x.Clave == id).OrderByDescending(x=>x.Fecha).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                return  new List<RecetasxPaciente>();
+            }
+            return recetasxpaciente;
+        
+        }
 
 
         private static byte[] HexStringToByteArray(string hex)

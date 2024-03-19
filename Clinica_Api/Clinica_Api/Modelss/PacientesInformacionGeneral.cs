@@ -5,7 +5,7 @@ namespace Clinica_Api.Modelss;
 
 public partial class PacientesInformacionGeneral
 {
-    public int? Clave { get; set; }
+    public int Clave { get; set; }
 
     public string? FechaDeNacimiento { get; set; }
 
